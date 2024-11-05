@@ -26,7 +26,13 @@ export default function CountryDetail() {
   return (
     <div className="container mx-auto p-4">
       <Navbar />
-      {country ? (
+      {country === undefined ? (
+        <Spinner />
+      ) : country.status === 404 ? (
+        <div className="text-center">
+          <h1 className="text-3xl font-bold mb-4">Country not found</h1>
+        </div>
+      ) : (
         <div className="max-w-4xl mx-auto">
           <div className="text-center">
             <h1 className="text-3xl font-bold mb-4">{country.name}</h1>
@@ -59,8 +65,6 @@ export default function CountryDetail() {
           </div>
           <PopulationChart populationData={country.populationCounts} />
         </div>
-      ) : (
-        <Spinner />
       )}
     </div>
   );

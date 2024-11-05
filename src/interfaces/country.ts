@@ -4,4 +4,5 @@ export interface ICountry {
   flag: string;
   borders: { commonName: string; countryCode: string }[];
   populationCounts: { year: number; value: number }[];
+  status?: number;
 }
