@@ -15,10 +15,6 @@ export const fetchCountries: () => Promise<ICountry[]> = async () => {
 export const fetchCountry: (countryCode: string) => Promise<ICountry> = async (
   countryCode: string
 ) => {
-  try {
-    const { data } = await axios.get(`${apiUrl}/countries/${countryCode}`);
-    return data;
-  } catch (error) {
-    console.error(error);
-  }
+  const { data } = await axios.get(`${apiUrl}/countries/${countryCode}`);
+  return data;
 };

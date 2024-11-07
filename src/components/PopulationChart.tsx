@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
   Line,
   LineChart,
@@ -9,17 +8,16 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import TooltipContent from "./TooltipContent";
 
 interface IPopulationChartProps {
-  populationData: {
+  readonly populationData: {
     year: number;
     value: number;
   }[];
 }
 
 export function PopulationChart({ populationData }: IPopulationChartProps) {
-  const [hoveredValue, setHoveredValue] = useState<number | null>(null);
-
   const formatYAxis = (value: number) => {
     return `${(value / 1000).toFixed(0)}k`;
   };
@@ -39,12 +37,6 @@ export function PopulationChart({ populationData }: IPopulationChartProps) {
             <LineChart
               data={populationData}
               margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-              onMouseMove={(e) => {
-                if (e.activePayload) {
-                  setHoveredValue(e.activePayload[0].value);
-                }
-              }}
-              onMouseLeave={() => setHoveredValue(null)}
             >
               <XAxis
                 dataKey="year"
@@ -56,19 +48,7 @@ export function PopulationChart({ populationData }: IPopulationChartProps) {
                 tick={{ fontSize: 12 }}
                 width={40}
               />
-              <Tooltip
-                content={({ active, payload }) => {
-                  if (active && payload && payload.length) {
-                    return (
-                      <div className="bg-background border border-border p-2 rounded shadow">
-                        <p className="font-semibold">{`Year: ${payload[0].payload.year}`}</p>
-                        <p>{`Population: ${payload[0].value?.toLocaleString()}`}</p>
-                      </div>
-                    );
-                  }
-                  return null;
-                }}
-              />
+              <Tooltip content={<TooltipContent />} />
               <Line
                 type="monotone"
                 dataKey="value"
